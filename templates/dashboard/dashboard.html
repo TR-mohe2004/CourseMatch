@@ -1,0 +1,464 @@
+{% load static %}
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}لوحة التحكم{% endblock %}</title>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body>
+    <!-- الشريط الجانبي -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <i class="fas fa-chart-line"></i>
+          <span>لوحة التحكم</span>
+        </div>
+        <button class="toggle-sidebar-btn"><i class="fas fa-bars"></i></button>
+      </div>
+      <nav class="sidebar-nav">
+        <ul>
+          <li
+            class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"
+          >
+            <a href="{% url 'dashboard:dashboard' %}" class="nav-link">
+              <i class="fas fa-home"></i>
+              <span>الرئيسية</span>
+            </a>
+          </li>
+          <li
+            class="nav-item {% if request.resolver_match.url_name == 'reports' %}active{% endif %}"
+          >
+            <a href="{% url 'dashboard:reports' %}" class="nav-link">
+              <i class="fas fa-chart-bar"></i>
+              <span>التقارير</span>
+            </a>
+          </li>
+          <li
+            class="nav-item {% if request.resolver_match.url_name == 'users' %}active{% endif %}"
+          >
+            <a href="{% url 'dashboard:users' %}" class="nav-link">
+              <i class="fas fa-users"></i>
+              <span>المستخدمون</span>
+            </a>
+          </li>
+          <li
+            class="nav-item {% if request.resolver_match.url_name == 'settings' %}active{% endif %}"
+          >
+            <a href="{% url 'dashboard:settings' %}" class="nav-link">
+              <i class="fas fa-cog"></i>
+              <span>الإعدادات</span>
+            </a>
+          </li>
+          <li
+            class="nav-item {% if request.resolver_match.url_name == 'messages' %}active{% endif %}"
+          >
+            <a href="{% url 'dashboard:messages' %}" class="nav-link">
+              <i class="fas fa-envelope"></i>
+              <span>الرسائل</span>
+            </a>
+          </li>
+          <li
+            class="nav-item {% if request.resolver_match.url_name == 'sales' %}active{% endif %}"
+          >
+            <a href="{% url 'dashboard:sales' %}" class="nav-link">
+              <i class="fas fa-shopping-cart"></i>
+              <span>المبيعات</span>
+            </a>
+          </li>
+          <li
+            class="nav-item {% if request.resolver_match.url_name == 'documents' %}active{% endif %}"
+          >
+            <a href="{% url 'dashboard:documents' %}" class="nav-link">
+              <i class="fas fa-file-alt"></i>
+              <span>المستندات</span>
+            </a>
+          </li>
+          <li
+            class="nav-item {% if request.resolver_match.url_name == 'help' %}active{% endif %}"
+          >
+            <a href="{% url 'dashboard:help' %}" class="nav-link">
+              <i class="fas fa-question-circle"></i>
+              <span>المساعدة</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <img
+            src="{% static 'img/user-avatar.png' %}"
+            alt="صورة المستخدم"
+            class="user-avatar"
+          />
+          <div class="user-details">
+            <span class="user-name">اسم المستخدم</span>
+            <span class="user-role">المسؤول</span>
+          </div>
+        </div>
+        <button class="logout-btn"><i class="fas fa-sign-out-alt"></i></button>
+      </div>
+    </aside>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="main-content">
+      <!-- الشريط العلوي -->
+      <header class="top-header">
+        <div class="header-left">
+          <button class="toggle-sidebar-btn mobile-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="search-box">
+            <input type="text" placeholder="البحث..." class="search-input" />
+            <i class="fas fa-search search-icon"></i>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="notification-icon">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge">3</span>
+            <div class="notification-dropdown">
+              <h4>الإشعارات</h4>
+              <div class="notification-list">
+                <div class="notification-item">
+                  <i class="fas fa-user-plus"></i>
+                  <p>مستخدم جديد انضم إلى النظام</p>
+                  <span>منذ 5 دقائق</span>
+                </div>
+                <div class="notification-item">
+                  <i class="fas fa-chart-line"></i>
+                  <p>تم تحديث التقرير الشهري</p>
+                  <span>منذ 15 دقيقة</span>
+                </div>
+                <div class="notification-item read">
+                  <i class="fas fa-envelope"></i>
+                  <p>رسالة جديدة من العميل</p>
+                  <span>منذ ساعة</span>
+                </div>
+              </div>
+              <button class="mark-all-read">تعيين الكل كمقروء</button>
+            </div>
+          </div>
+          <div class="user-profile-dropdown">
+            <img
+              src="{% static 'img/user-avatar.png' %}"
+              alt="الملف الشخصي"
+              class="profile-avatar"
+            />
+            <div class="profile-dropdown-content">
+              <div class="profile-info">
+                <span class="profile-name">اسم المستخدم</span>
+                <span class="profile-email">user@example.com</span>
+              </div>
+              <hr />
+              <a href="{% url 'dashboard:profile' %}" class="profile-link">
+                <i class="fas fa-user"></i>
+                الملف الشخصي
+              </a>
+              <a href="{% url 'dashboard:settings' %}" class="profile-link">
+                <i class="fas fa-cog"></i>
+                الإعدادات
+              </a>
+              <hr />
+              <a href="{% url 'logout' %}" class="profile-link logout">
+                <i class="fas fa-sign-out-alt"></i>
+                تسجيل الخروج
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- محتوى الصفحة -->
+      <div class="page-content">
+        <div class="dashboard-header">
+          <h1>لوحة التحكم الرئيسية</h1>
+          <p>مرحباً بك في لوحة التحكم، تحكم في جميع العمليات من مكان واحد</p>
+        </div>
+
+        <!-- بطاقات الإحصائيات -->
+        <div class="stats-cards">
+          <div class="card stat-card">
+            <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+            <div class="card-content">
+              <span class="card-label">إجمالي المبيعات</span>
+              <span class="card-value">18,765</span>
+              <span class="stat-change positive"
+                ><i class="fas fa-arrow-up"></i> +12.5%</span
+              >
+            </div>
+          </div>
+          <div class="card stat-card">
+            <div class="card-icon"><i class="fas fa-users"></i></div>
+            <div class="card-content">
+              <span class="card-label">عدد الزوار</span>
+              <span class="card-value">4,876</span>
+              <span class="stat-change positive"
+                ><i class="fas fa-arrow-up"></i> +8.2%</span
+              >
+            </div>
+          </div>
+          <div class="card stat-card">
+            <div class="card-icon"><i class="fas fa-dollar-sign"></i></div>
+            <div class="card-content">
+              <span class="card-label">معدل التحويل</span>
+              <span class="card-value">678</span>
+              <span class="stat-change negative"
+                ><i class="fas fa-arrow-down"></i> -2.1%</span
+              >
+            </div>
+          </div>
+          <div class="card stat-card promo-card">
+            <div class="card-content">
+              <h3>تحليلات متقدمة</h3>
+              <p>احصل على رؤى عميقة حول أدائك</p>
+              <button class="btn-primary">ابدأ الآن</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- الرسوم البيانية -->
+        <div class="charts-section">
+          <div class="card chart-card">
+            <div class="card-header">
+              <h3>التوزيع الجغرافي</h3>
+            </div>
+            <div class="card-content chart-container">
+              <canvas id="geographicChart"></canvas>
+              <div class="chart-legend">
+                <div class="legend-item">
+                  <span
+                    class="color-box"
+                    style="background-color: #10b981"
+                  ></span>
+                  الرياض
+                </div>
+                <div class="legend-item">
+                  <span
+                    class="color-box"
+                    style="background-color: #3b82f6"
+                  ></span>
+                  جدة
+                </div>
+                <div class="legend-item">
+                  <span
+                    class="color-box"
+                    style="background-color: #f59e0b"
+                  ></span>
+                  الدمام
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card chart-card">
+            <div class="card-header">
+              <h3>الأداء الشهري</h3>
+              <div class="chart-controls">
+                <button class="active" data-period="daily">يومي</button>
+                <button data-period="weekly">أسبوعي</button>
+                <button data-period="monthly">شهري</button>
+              </div>
+            </div>
+            <div class="card-content chart-container">
+              <canvas id="monthlyPerformanceChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- الجداول والمهام -->
+        <div class="tables-tasks-section">
+          <!-- جدول المعاملات -->
+          <div class="table-card">
+            <div class="table-header">
+              <h3>أحدث المعاملات</h3>
+              <a href="{% url 'dashboard:transactions' %}" class="view-all-btn"
+                >عرض الكل</a
+              >
+            </div>
+            <div class="table-content">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>التاريخ</th>
+                    <th>المبلغ</th>
+                    <th>الحالة</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2025-07-08</td>
+                    <td>1,250 ر.س</td>
+                    <td><span class="status-badge success">مكتمل</span></td>
+                  </tr>
+                  <tr>
+                    <td>2025-07-07</td>
+                    <td>850 ر.س</td>
+                    <td><span class="status-badge pending">معلق</span></td>
+                  </tr>
+                  <tr>
+                    <td>2025-07-06</td>
+                    <td>2,100 ر.س</td>
+                    <td><span class="status-badge success">مكتمل</span></td>
+                  </tr>
+                  <tr>
+                    <td>2025-07-05</td>
+                    <td>750 ر.س</td>
+                    <td><span class="status-badge failed">فاشل</span></td>
+                  </tr>
+                  <tr>
+                    <td>2025-07-04</td>
+                    <td>1,500 ر.س</td>
+                    <td><span class="status-badge success">مكتمل</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- قائمة المهام -->
+          <div class="table-card">
+            <div class="table-header">
+              <h3>المهام الحديثة</h3>
+              <a href="#" class="add-btn">
+                <i class="fas fa-plus"></i>
+              </a>
+            </div>
+            <div class="table-content">
+              <div class="task-list">
+                <div class="task-item high">
+                  <div class="task-details">
+                    <h4>مراجعة التقارير الشهرية</h4>
+                    <p>يجب مراجعة جميع التقارير قبل نهاية الأسبوع</p>
+                  </div>
+                  <span class="task-time">2 ساعة</span>
+                </div>
+                <div class="task-item medium">
+                  <div class="task-details">
+                    <h4>تحديث قاعدة البيانات</h4>
+                    <p>تحديث المعلومات الأساسية للعملاء</p>
+                  </div>
+                  <span class="task-time">4 ساعات</span>
+                </div>
+                <div class="task-item low">
+                  <div class="task-details">
+                    <h4>اجتماع الفريق</h4>
+                    <p>مناقشة خطة العمل للشهر القادم</p>
+                  </div>
+                  <span class="task-time">1 يوم</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- الإحصائيات التفصيلية -->
+        <div class="detailed-stats-section">
+          <div class="card detailed-stats-card">
+            <div class="card-header">
+              <h3>الإحصائيات التفصيلية</h3>
+              <div class="stats-controls">
+                <select id="statsPeriod">
+                  <option value="7">آخر 7 أيام</option>
+                  <option value="30">آخر 30 يوم</option>
+                  <option value="90">آخر 3 أشهر</option>
+                </select>
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="stat-item">
+                <span class="stat-label">إجمالي الإيرادات</span>
+                <span class="stat-value">245,680 ر.س</span>
+                <span class="stat-trend positive">+15.2%</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">عدد الطلبات</span>
+                <span class="stat-value">1,847</span>
+                <span class="stat-trend positive">+8.7%</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">متوسط قيمة الطلب</span>
+                <span class="stat-value">133 ر.س</span>
+                <span class="stat-trend negative">-2.3%</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">معدل الإرجاع</span>
+                <span class="stat-value">2.1%</span>
+                <span class="stat-trend positive">-0.5%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- بطاقات التقدم -->
+          <div class="card progress-card">
+            <div class="card-content">
+              <h3>كفاءة الموظفين</h3>
+              <div class="progress-circle" data-progress="75">
+                <svg viewBox="0 0 36 36" class="circular-chart">
+                  <path
+                    class="circle-bg"
+                    d="M18 2.0845
+                                        a 15.9155 15.9155 0 0 1 0 31.831
+                                        a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                  <path
+                    class="circle"
+                    stroke-dasharray="75, 100"
+                    d="M18 2.0845
+                                        a 15.9155 15.9155 0 0 1 0 31.831
+                                        a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                </svg>
+                <div class="progress-text">75%</div>
+              </div>
+              <p>38,566</p>
+              <span>75% من الهدف</span>
+            </div>
+          </div>
+          <div class="card progress-card">
+            <div class="card-content">
+              <h3>رضا العملاء</h3>
+              <div class="progress-circle" data-progress="85">
+                <svg viewBox="0 0 36 36" class="circular-chart">
+                  <path
+                    class="circle-bg"
+                    d="M18 2.0845
+                                        a 15.9155 15.9155 0 0 1 0 31.831
+                                        a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                  <path
+                    class="circle"
+                    stroke-dasharray="85, 100"
+                    d="M18 2.0845
+                                        a 15.9155 15.9155 0 0 1 0 31.831
+                                        a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                </svg>
+                <div class="progress-text">85%</div>
+              </div>
+              <p>55,566</p>
+              <span>85% من الهدف</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- JavaScript Files -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'js/dashboard.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>
