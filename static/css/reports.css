@@ -1,0 +1,66 @@
+/* الخط العام والخلفية */
+body {
+    font-family: 'Cairo', sans-serif;
+    background-color: #eef1f5;
+    margin: 0;
+    padding: 20px;
+    direction: rtl;
+}
+
+/* الحاوية العامة */
+.report-container {
+    max-inline-size: 1200px;
+    margin: auto;
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+/* العنوان */
+.report-container h2 {
+    margin-block-end: 20px;
+    color: #1E2A38;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+/* الجدول */
+table {
+    inline-size: 100%;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* رأس الجدول */
+thead {
+    background-color: #28C76F;
+    color: white;
+}
+
+th, td {
+    padding: 15px;
+    text-align: center;
+    font-size: 15px;
+}
+
+/* الصفوف */
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+    background-color: #eafaf1;
+}
+
+/* النصوص */
+td {
+    color: #1E2A38;
+}
+
+/* صف فارغ */
+td[colspan="5"] {
+    color: #999;
+    font-style: italic;
+}

@@ -1,0 +1,114 @@
+ {% load static %}
+ <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة التخصصات والمواد</title>
+    
+    <!-- Google Fonts (Cairo) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome (for icons ) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- ربط ملف CSS الخاص بالتصميم -->
+    <link rel="stylesheet" href="{% static 'css/messages.css' %}">
+
+</head>
+<body>
+    <div class="main-container">
+        <header>
+            <h1>لوحة تحكم الإدارة</h1>
+            <p>إدارة التخصصات والمواد الدراسية للمعادلات</p>
+        </header>
+
+        <!-- القسم الأول: إضافة تخصص جديد -->
+        <div class="card" id="add-specialization-card">
+            <h2><i class="fas fa-plus-circle"></i> إضافة تخصص جديد</h2>
+            <form id="specialization-form">
+                <div class="input-group">
+                    <label for="spec_name">اسم التخصص </label>
+                   <input type="text" id="spec_name" name="spec_name" required>
+
+                </div>
+                
+                <div class="input-group">
+                    <label>نوع التخصص</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="spec_type" value="medical" required> طبي</label>
+                        <label><input type="radio" name="spec_type" value="applied"> تطبيقي</label>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary">التالي <i class="fas fa-arrow-left"></i></button>
+                    <button type="reset" class="btn btn-secondary">إلغاء</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- القسم الثاني: إدارة مواد تخصص معين (مخفي افتراضياً ) -->
+        <div class="card" id="manage-courses-card" style="display: none;">
+            <button class="back-button"><i class="fas fa-arrow-right"></i> تراجع</button>
+            <h2>إدارة مواد تخصص: <span id="current-spec-name" class="highlight"></span></h2>
+            
+            <!-- نموذج إضافة مادة -->
+            <form id="course-form">
+                <div class="inline-form">
+                    <div class="input-group">
+                        <label for="course_name">اسم المادة</label>
+                        <input type="text" id="course_name" placeholder="مثال: برمجة 1" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="course_code">رمز المادة (اختياري)</label>
+                        <input type="text" id="course_code" placeholder="CS101">
+                    </div>
+                    <button type="submit" class="btn btn-primary add-btn"><i class="fas fa-plus"></i> إضافة</button>
+                </div>
+            </form>
+
+            <div class="separator"><span>أو</span></div>
+
+            <!-- منطقة تحميل PDF -->
+            <div class="upload-area">
+                <label for="pdf_file" class="upload-label">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>تحميل قائمة المواد (PDF)</span>
+                </label>
+                <input type="file" id="pdf_file" accept=".pdf" style="display: none;">
+            </div>
+
+            <!-- جدول عرض المواد -->
+            <h3>المواد المضافة حالياً</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>اسم المادة</th>
+                            <th>رمز المادة</th>
+                            <th>إجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody id="courses-table-body">
+                        <!-- سيتم إضافة الصفوف هنا عبر JavaScript -->
+                        <tr>
+                            <td>مقدمة في الحاسوب</td>
+                            <td>IT101</td>
+                            <td><button class="btn-delete"><i class="fas fa-trash-alt"></i> حذف</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- سنضيف JavaScript هنا لاحقاً للتحكم في الواجهة -->
+    <script>
+    <script src="{% static 'js/messages_script.js' %}"></script>
+       
+    </script>
+</body>
+</html>

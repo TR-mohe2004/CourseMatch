@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل طالب</title>
+
+    <!-- ربط CSS -->
+    <link rel="stylesheet" href="{% static 'css/users.css' %}?v=3">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+<div class="form-container">
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2>تسجيل طالب</h2>
+
+        <!-- الصف الأول -->
+        <div class="form-row">
+            <div class="input-group">
+                <label for="student_name">اسم الطالب</label>
+                <input type="text" id="student_name" name="student_name" required>
+            </div>
+            <div class="input-group">
+                <label for="student_id">رقم القيد</label>
+                <input type="text" id="student_id" name="student_id" required>
+            </div>
+        </div>
+
+        <!-- الصف الثاني -->
+        <div class="form-row">
+            <div class="input-group">
+                <label for="from_department">من قسم</label>
+                <input type="text" id="from_department" name="from_department" required>
+            </div>
+            <div class="input-group">
+                <label for="to_department">إلى قسم</label>
+                <input type="text" id="to_department" name="to_department" required>
+            </div>
+        </div>
+
+        <!-- الصف الثالث -->
+        <div class="input-group full-width">
+            <label for="subject_count">عدد المواد</label>
+            <input type="number" id="subject_count" name="subject_count" min="1" required>
+        </div>
+
+        <!-- فاصل -->
+        <div class="separator"><span>أو</span></div>
+
+        <!-- رفع PDF -->
+        <div class="upload-area">
+            <label for="pdf_file" class="upload-label">
+                <i class="fas fa-file-pdf"></i>
+                <span>تحميل ملف PDF</span>
+            </label>
+            <input type="file" id="pdf_file" name="pdf_file" accept=".pdf" style="display: none;">
+            <p class="upload-description">لإدخال بيانات عدد كبير من الطلاب مرة واحدة</p>
+        </div>
+
+        <!-- الأزرار -->
+        <div class="button-group">
+            <button type="submit" class="btn btn-submit">إدخال</button>
+            <button type="reset" class="btn btn-cancel">إلغاء</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

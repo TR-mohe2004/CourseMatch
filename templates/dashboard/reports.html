@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تقارير المعادلات</title>
+
+    <!-- ربط ملف التنسيقات الخارجي -->
+    <link rel="stylesheet" href="{% static 'css/reports.css' %}">
+</head>
+<body>
+    <div class="report-container">
+        <h2>تقارير المعادلات</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>اسم الطالب</th>
+                    <th>رقم القيد</th>
+                    <th>من قسم</th>
+                    <th>إلى قسم</th>
+                    <th>عدد المواد</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in reports %}
+                <tr>
+                    <td>{{ report.student.name }}</td>
+                    <td>{{ report.student.student_id }}</td>
+                    <td>{{ report.from_department }}</td>
+                    <td>{{ report.to_department }}</td>
+                    <td>{{ report.subject_count }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">لا توجد تقارير حالياً</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

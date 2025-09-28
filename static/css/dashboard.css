@@ -20,7 +20,9 @@ body {
   block-size: 100vh;
   position: fixed;
   inset-block-start: 0;
-  inset-inline-end: 0; /* تغيير left إلى right */
+  inset-inline-end: 0; /* اجعل القائمة على يمين الشاشة */
+  inset-inline-end: 0;
+  inset-inline-start: auto;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -156,13 +158,13 @@ body {
 
 /* المحتوى الرئيسي */
 .main-content {
-  margin-inline-end: 250px; /* تغيير margin-left إلى margin-right */
+  margin-inline-end: 250px; /* اجعل هامش المحتوى الرئيسي من جهة اليمين */
   transition: all 0.3s ease;
   padding: 20px;
 }
 
 .main-content.sidebar-collapsed {
-  margin-inline-end: 80px; /* تغيير margin-left إلى margin-right */
+  margin-inline-end: 80px; /* اجعل هامش المحتوى الرئيسي من جهة اليمين عند تصغير القائمة */
 }
 
 /* الشريط العلوي */
@@ -892,9 +894,7 @@ body {
 @media (max-width: 768px) {
   .sidebar {
     inline-size: 80px;
-    transform: translateX(
-      100%
-    ); /* تغيير translateX(-100%) إلى translateX(100%) */
+    transform: translateX(100%); /* اجعل القائمة تخرج من جهة اليمين */
   }
 
   .sidebar.show {
@@ -902,11 +902,11 @@ body {
   }
 
   .main-content {
-    margin-inline-end: 0; /* تغيير margin-left إلى margin-right */
+    margin-inline-end: 0; /* أزل الهامش عند تصغير الشاشة */
   }
 
   .main-content.sidebar-collapsed {
-    margin-inline-end: 0; /* تغيير margin-left إلى margin-right */
+    margin-inline-end: 0; /* أزل الهامش عند تصغير الشاشة */
   }
 
   .header-left .mobile-toggle {
@@ -931,4 +931,9 @@ body {
   .sidebar-header .toggle-sidebar-btn {
     display: none;
   }
+}
+
+.main-container {
+  display: flex;
+  flex-direction: row-reverse; /* يجعل الشريط في اليمين للغة العربية */
 }
